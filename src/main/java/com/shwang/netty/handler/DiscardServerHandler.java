@@ -16,6 +16,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 		if(in.isReadable())
 		{
 			System.out.print("Read in Discard! " + in.toString(Charset.forName("UTF-8")));
+			ctx.write(msg);
 		}
 		else
 		{

@@ -16,7 +16,7 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
 			System.out.print("Read in HearBeat! " + in.toString(Charset.forName("UTF-8")));
 		}
 		
-		in.release();
+		//in.release();
 		
         ctx.fireChannelRead(msg);
     }

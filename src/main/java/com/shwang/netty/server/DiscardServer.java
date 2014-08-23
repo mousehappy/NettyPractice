@@ -37,7 +37,7 @@ public class DiscardServer {
 			bootstrap.childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                	ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(60, 0, 0));
+                	ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(30, 0, 20));
                 	ch.pipeline().addLast("idleEventHandler", new IdleEventHandler());
                 	ch.pipeline().addLast(new DefaultAcceptHandler());
                 	ch.pipeline().addLast(new HeartBeatHandler());

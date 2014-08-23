@@ -15,6 +15,10 @@ public class IdleEventHandler extends ChannelDuplexHandler {
 				System.out.println("Read timeout, close socket channel!");
                 ctx.close();
             }
+			else if(e.state() == IdleState.ALL_IDLE)
+			{
+				ctx.writeAndFlush("ping");
+			}
 //			else if (e.state() == IdleState.WRITER_IDLE) {
 //                ctx.writeAndFlush(new PingMessage());
 //            }
