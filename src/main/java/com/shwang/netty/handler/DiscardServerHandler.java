@@ -15,7 +15,11 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 		ByteBuf in = (ByteBuf)msg;
 		if(in.isReadable())
 		{
-			System.out.print(in.toString(Charset.forName("UTF-8")));
+			System.out.print("Read in Discard! " + in.toString(Charset.forName("UTF-8")));
+		}
+		else
+		{
+			System.out.print("Empty message!!");
 		}
 		in.release();
 	}

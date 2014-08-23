@@ -2,6 +2,8 @@ package com.shwang.netty.server;
 
 import com.shwang.netty.handler.DefaultAcceptHandler;
 import com.shwang.netty.handler.DiscardServerHandler;
+import com.shwang.netty.handler.HeartBeatHandler;
+import com.shwang.netty.handler.IdleEventHandler;
 
 import io.netty.bootstrap.ChannelFactory;
 import io.netty.bootstrap.ServerBootstrap;
@@ -12,6 +14,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class DiscardServer {
 	private int port;
@@ -30,18 +33,15 @@ public class DiscardServer {
 			ServerBootstrap bootstrap = new ServerBootstrap();
 			bootstrap.group(bossGroup, workerGroup)
 			.channel(NioServerSocketChannel.class);
-			bootstrap.handler(new ChannelInitializer<NioServerSocketChannel>() { // (4)
-                @Override
-                public void initChannel(NioServerSocketChannel ch) throws Exception {
-                	ch.pipeline().addLast(new DefaultAcceptHandler());
-                   // ch.pipeline().addLast(new DiscardServerHandler());
-                }
-            });
+			
 			bootstrap.childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
+                	ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(60, 0, 0));
+                	ch.pipeline().addLast("idleEventHandler", new IdleEventHandler());
                 	ch.pipeline().addLast(new DefaultAcceptHandler());
-                    ch.pipeline().addLast(new DiscardServerHandler());
+                	ch.pipeline().addLast(new HeartBeatHandler());
+                	ch.pipeline().addLast(new DiscardServerHandler());
                 }
             });
 			
