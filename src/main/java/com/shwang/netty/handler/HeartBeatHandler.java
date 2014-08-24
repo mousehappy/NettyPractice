@@ -13,11 +13,14 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
 		ByteBuf in = (ByteBuf)msg;
 		if(in.isReadable())
 		{
-			System.out.print("Read in HearBeat! " + in.toString(Charset.forName("UTF-8")));
+			if (in.capacity() == 4 && in.toString(Charset.forName("UTF-8")).equals("pong"))
+			{
+				//No nothing
+			}
+			else
+			{
+				ctx.fireChannelRead(msg);
+			}
 		}
-		
-		//in.release();
-		
-        ctx.fireChannelRead(msg);
     }
 }

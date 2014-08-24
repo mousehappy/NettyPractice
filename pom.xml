@@ -50,7 +50,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.shwang.practice.App</mainClass>
+              <mainClass>com.shwang.netty.server.ChatServer</mainClass>
             </manifest>
           </archive>
         </configuration>
